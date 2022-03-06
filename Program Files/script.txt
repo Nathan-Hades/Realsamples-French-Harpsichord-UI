@@ -1,0 +1,328 @@
+on init
+	SET_CONDITION(NO_SYS_SCRIPT_RLS_TRIG)
+	make_perfview
+	declare const $UI_HEIGHT := 410
+	set_ui_height_px($UI_HEIGHT)
+	set_control_par_str($INST_WALLPAPER_ID,$CONTROL_PAR_PICTURE,"french_harpsichord_skin")
+
+	declare const $BTN_X := 130+1
+	declare const $BTN_Y := 130+1
+	declare const $BTN_H := 136
+	declare ui_button $button4
+	set_control_par_str(get_ui_id($button4),$CONTROL_PAR_PICTURE,"4")
+	set_control_par_str(get_ui_id($button4),$CONTROL_PAR_TEXT,"")
+	set_control_par(get_ui_id($button4),$CONTROL_PAR_WIDTH,$BTN_X)
+	set_control_par(get_ui_id($button4),$CONTROL_PAR_HEIGHT,$BTN_Y)
+	move_control_px($button4,100,$BTN_H) {position: center button}
+	
+	declare ui_button $button8U
+	set_control_par_str(get_ui_id($button8U),$CONTROL_PAR_PICTURE,"U8")
+	set_control_par_str(get_ui_id($button8U),$CONTROL_PAR_TEXT,"")
+	set_control_par(get_ui_id($button8U),$CONTROL_PAR_WIDTH,$BTN_X)
+	set_control_par(get_ui_id($button8U),$CONTROL_PAR_HEIGHT,$BTN_Y)
+	move_control_px($button8U,225,$BTN_H) {position: center button}
+	
+	declare ui_button $button8L
+	set_control_par_str(get_ui_id($button8L),$CONTROL_PAR_PICTURE,"L8")
+	set_control_par_str(get_ui_id($button8L),$CONTROL_PAR_TEXT,"")
+	set_control_par(get_ui_id($button8L),$CONTROL_PAR_WIDTH,$BTN_X)
+	set_control_par(get_ui_id($button8L),$CONTROL_PAR_HEIGHT,$BTN_Y)
+	move_control_px($button8L,350,$BTN_H) {position: center button}
+
+	declare const $tutti := 24
+	declare const $zwei8 := 26
+	declare const $vier := 35
+	declare const $achtL := 33
+	declare const $achtU := 31
+	declare const $vierUndAchtL := 29
+	declare const $vierUndAchtU := 28
+	set_key_color($tutti, $KEY_COLOR_RED)
+	set_key_color($zwei8, $KEY_COLOR_RED)
+	set_key_color($vier, $KEY_COLOR_RED)
+	set_key_color($achtL, $KEY_COLOR_RED)
+	set_key_color($achtU, $KEY_COLOR_RED)
+	set_key_color($vierUndAchtL, $KEY_COLOR_RED)
+	set_key_color($vierUndAchtU, $KEY_COLOR_RED)
+	declare $group_state
+	$group_state := 0
+	declare $group0_state
+	declare $group1_state
+	declare $group2_state
+	declare $group3_state
+	declare $group4_state
+	declare $group5_state
+	declare $group6_state
+	$group0_state := 0
+	$group1_state := 0
+	$group2_state := 0
+	$group3_state := 0
+	$group4_state := 0
+	$group5_state := 0
+	$group6_state := 0
+	
+	set_control_par(get_ui_id($button4), $CONTROL_PAR_VALUE, 1)
+	set_control_par(get_ui_id($button8L), $CONTROL_PAR_VALUE, 1)
+	set_control_par(get_ui_id($button8U), $CONTROL_PAR_VALUE, 1)
+end on
+
+on note
+	disallow_group($ALL_GROUPS)
+	
+	if ($EVENT_NOTE = $tutti)
+		$group_state := 0
+		set_control_par(get_ui_id($button4), $CONTROL_PAR_VALUE, 1)
+		set_control_par(get_ui_id($button8L), $CONTROL_PAR_VALUE, 1)
+		set_control_par(get_ui_id($button8U), $CONTROL_PAR_VALUE, 1)
+	end if
+
+	if ($EVENT_NOTE = $zwei8)
+		$group_state := 1
+		set_control_par(get_ui_id($button4), $CONTROL_PAR_VALUE, 0)
+		set_control_par(get_ui_id($button8L), $CONTROL_PAR_VALUE, 1)
+		set_control_par(get_ui_id($button8U), $CONTROL_PAR_VALUE, 1)
+	end if
+
+	if ($EVENT_NOTE = $vier)
+		$group_state := 2
+		set_control_par(get_ui_id($button4), $CONTROL_PAR_VALUE, 1)
+		set_control_par(get_ui_id($button8L), $CONTROL_PAR_VALUE, 0)
+		set_control_par(get_ui_id($button8U), $CONTROL_PAR_VALUE, 0)
+	end if
+
+	if ($EVENT_NOTE = $achtL)
+		$group_state := 3
+		set_control_par(get_ui_id($button4), $CONTROL_PAR_VALUE, 0)
+		set_control_par(get_ui_id($button8L), $CONTROL_PAR_VALUE, 1)
+		set_control_par(get_ui_id($button8U), $CONTROL_PAR_VALUE, 0)
+	end if
+	
+	if ($EVENT_NOTE = $achtU)
+		$group_state := 4
+		set_control_par(get_ui_id($button4), $CONTROL_PAR_VALUE, 0)
+		set_control_par(get_ui_id($button8L), $CONTROL_PAR_VALUE, 0)
+		set_control_par(get_ui_id($button8U), $CONTROL_PAR_VALUE, 1)
+	end if
+
+	if ($EVENT_NOTE = $vierUndAchtL)
+		$group_state := 5
+		set_control_par(get_ui_id($button4), $CONTROL_PAR_VALUE, 1)
+		set_control_par(get_ui_id($button8L), $CONTROL_PAR_VALUE, 1)
+		set_control_par(get_ui_id($button8U), $CONTROL_PAR_VALUE, 0)
+	end if
+
+	if ($EVENT_NOTE = $vierUndAchtU)
+		$group_state := 6
+		set_control_par(get_ui_id($button4), $CONTROL_PAR_VALUE, 1)
+		set_control_par(get_ui_id($button8L), $CONTROL_PAR_VALUE, 0)
+		set_control_par(get_ui_id($button8U), $CONTROL_PAR_VALUE, 1)
+	end if
+
+	if ($group_state = 0)
+		select($group0_state)
+			case 0
+				allow_group(0)
+				$group0_state := 1
+			case 1
+				allow_group(1)
+				$group0_state := 2
+			case 2
+				allow_group(2)
+				$group0_state := 3
+			case 3
+				allow_group(3)
+				$group0_state := 0
+		end select
+	end if
+	if ($group_state = 1)
+		select($group1_state)
+			case 0
+				allow_group(4)
+				$group1_state := 1
+			case 1
+				allow_group(5)
+				$group1_state := 2
+			case 2
+				allow_group(6)
+				$group1_state := 3
+			case 3
+				allow_group(7)
+				$group1_state := 0
+		end select
+	end if
+	if ($group_state = 2 or $group_state = 5 or $group_state = 6)
+		select($group2_state)
+			case 0
+				allow_group(8)
+				$group2_state := 1
+			case 1
+				allow_group(9)
+				$group2_state := 2
+			case 2
+				allow_group(10)
+				$group2_state := 3
+			case 3
+				allow_group(11)
+				$group2_state := 0
+		end select
+	end if
+	if ($group_state = 3 or $group_state = 5)
+		select($group3_state)
+			case 0
+				allow_group(12)
+				$group3_state := 1
+			case 1
+				allow_group(13)
+				$group3_state := 2
+			case 2
+				allow_group(14)
+				$group3_state := 3
+			case 3
+				allow_group(15)
+				$group3_state := 0
+		end select
+	end if
+	if ($group_state = 4 or $group_state = 6)
+		select($group4_state)
+			case 0
+				allow_group(16)
+				$group4_state := 1
+			case 1
+				allow_group(17)
+				$group4_state := 2
+			case 2
+				allow_group(18)
+				$group4_state := 3
+			case 3
+				allow_group(19)
+				$group4_state := 0
+		end select
+	end if
+end on
+
+on release
+	disallow_group($ALL_GROUPS)
+	if ($group_state = 0)
+		select($group0_state)
+			case 1
+				allow_group(20)
+			case 2
+				allow_group(21)
+			case 3
+				allow_group(22)
+			case 0
+				allow_group(23)
+		end select
+	end if
+	if ($group_state = 1)
+		select($group1_state)
+			case 1
+				allow_group(24)
+			case 2
+				allow_group(25)
+			case 3
+				allow_group(26)
+			case 0
+				allow_group(27)
+		end select
+	end if
+	if ($group_state = 2 or $group_state = 5 or $group_state = 6)
+		select($group2_state)
+			case 1
+				allow_group(28)
+			case 2
+				allow_group(29)
+			case 3
+				allow_group(30)
+			case 0
+				allow_group(31)
+		end select
+	end if
+	if ($group_state = 3 or $group_state = 5)
+		select($group3_state)
+			case 1
+				allow_group(32)
+			case 2
+				allow_group(33)
+			case 3
+				allow_group(34)
+			case 0
+				allow_group(35)
+		end select
+	end if
+	if ($group_state = 4 or $group_state = 6)
+		select($group4_state)
+			case 1
+				allow_group(36)
+			case 2
+				allow_group(37)
+			case 3
+				allow_group(38)
+			case 0
+				allow_group(39)
+		end select
+	end if
+	play_note($EVENT_NOTE,$EVENT_VELOCITY,0,-1)
+end on
+
+on ui_control ($button4)
+	select($group_state)
+		case 0
+			$group_state := 1
+		case 1
+			$group_state := 0
+		case 2
+			$group_state := 7
+		case 3
+			$group_state := 5
+		case 4
+			$group_state := 6
+		case 5
+			$group_state := 3
+		case 6
+			$group_state := 4
+		case 7
+			$group_state := 2
+	end select
+end on
+
+on ui_control ($button8L)
+	select($group_state)
+		case 0
+			$group_state := 6
+		case 1
+			$group_state := 4
+		case 2
+			$group_state := 5
+		case 3
+			$group_state := 7
+		case 4
+			$group_state := 1
+		case 5
+			$group_state := 2
+		case 6
+			$group_state := 0
+		case 7
+			$group_state := 3
+	end select
+end on
+
+on ui_control ($button8U)
+	select($group_state)
+		case 0
+			$group_state := 5
+		case 1
+			$group_state := 3
+		case 2
+			$group_state := 6
+		case 3
+			$group_state := 1
+		case 4
+			$group_state := 7
+		case 5
+			$group_state := 0
+		case 6
+			$group_state := 2
+		case 7
+			$group_state := 4
+	end select
+end on
